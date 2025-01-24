@@ -42,19 +42,19 @@ export const WorkspaceSwitcher = () => {
                     )}
                 </Button>
             </DropdownMenuTrigger>
+
             <DropdownMenuContent side="bottom" align="start" className="w-64">
                 {/* Active workspace */}
                 <DropdownMenuItem
-                    className="cursor-pointer flex-col flex justify-start items-start capitalize pb-2"
+                    className="cursor-pointer flex-col flex justify-start items-start capitalize mb-1"
                     onClick={() => router.push(`/workspace/${workspaceId}`)}
                 >
-                    <span className="font-semibold -mb-1">
-                        {workspace?.name}
-                    </span>
-                    <span
-                        className="text-xs text-muted-foreground
-                    "
-                    >
+                    <div className="w-full overflow-hidden">
+                        <p className="font-semibold -mb-1 truncate">
+                            {workspace?.name}
+                        </p>
+                    </div>
+                    <span className="text-xs text-muted-foreground">
                         Active workspace
                     </span>
                 </DropdownMenuItem>
@@ -63,28 +63,28 @@ export const WorkspaceSwitcher = () => {
 
                 {/* Other workspaces */}
                 {filteredWorkspaces?.map((workspace) => (
-                    <>
-                        <DropdownMenuItem
-                            key={workspace._id}
-                            className="cursor-pointer capitalize pt-2"
-                            onClick={() => {
-                                router.push(`/workspace/${workspace._id}`);
-                            }}
-                        >
-                            <div className="size-7 relative overflow-hidden bg-[#616061] text-white font-semibold text-lg rounded-md flex items-center justify-center mr-2">
-                                {workspace.name.charAt(0).toUpperCase()}
-                            </div>
-                            {workspace.name}
-                        </DropdownMenuItem>
-                    </>
+                    <DropdownMenuItem
+                        key={workspace._id}
+                        className="cursor-pointer capitalize pt-2 overflow-hidden"
+                        onClick={() => {
+                            router.push(`/workspace/${workspace._id}`);
+                        }}
+                    >
+                        <div className="shrink-0 size-7 relative overflow-hidden bg-[#616061] text-white font-semibold text-lg rounded-md flex items-center justify-center mr-1">
+                            {workspace.name.charAt(0).toUpperCase()}
+                        </div>
+                        <p className="truncate">{workspace.name}</p>
+                    </DropdownMenuItem>
                 ))}
+
+                <Separator />
 
                 {/* Create new workspace */}
                 <DropdownMenuItem
-                    className="cursor-pointer"
+                    className="cursor-pointer mt-1"
                     onClick={() => setOpen(true)}
                 >
-                    <div className="size-7 relative overflow-hidden bg-[#F2F2F2] text-slate-8000 font-semibold text-lg rounded-md flex items-center justify-center mr-2">
+                    <div className="size-7 relative overflow-hidden bg-[#F2F2F2] text-slate-8000 font-semibold text-lg rounded-md flex items-center justify-center mr-1">
                         <Plus />
                     </div>
                     Create a new workspace

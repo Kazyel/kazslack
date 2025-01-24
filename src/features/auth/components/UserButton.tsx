@@ -40,11 +40,12 @@ export const UserButton = () => {
                 side="right"
                 className="ml-2 w-60"
             >
-                <DropdownMenuItem>
+                <DropdownMenuItem
+                    className="cursor-pointer"
+                    onClick={() => signOut()}
+                >
                     <LogOut className="size-4" />
-                    <button onClick={() => signOut()} className="">
-                        Sign out
-                    </button>
+                    Sign out
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
