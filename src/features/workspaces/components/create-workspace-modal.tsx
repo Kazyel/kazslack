@@ -12,8 +12,8 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
 import React, { useState } from "react";
-import { useCreateWorkspaceModal } from "../store/useCreateWorkspaceModal";
-import { useCreateWorkspace } from "../api/useCreateWorkspace";
+import { useCreateWorkspaceModal } from "../store/use-create-workspace-modal";
+import { useCreateWorkspace } from "../api/use-create-workspace";
 import { useRouter } from "next/navigation";
 
 export const CreateWorkspaceModal = () => {

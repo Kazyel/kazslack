@@ -9,11 +9,10 @@ import { Button } from "@/components/ui/button";
 import { Loader, Plus } from "lucide-react";
 
 import { useRouter } from "next/navigation";
-import { useWorkspaceId } from "@/hooks/useWorkspaceId";
-import { useGetWorkspace } from "@/features/workspaces/api/useGetWorkspace";
-import { useGetWorkspaces } from "@/features/workspaces/api/useGetWorkspaces";
-import { useCreateWorkspaceModal } from "@/features/workspaces/store/useCreateWorkspaceModal";
-import { Separator } from "@/components/ui/separator";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
+import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
+import { useGetWorkspaces } from "@/features/workspaces/api/use-get-workspaces";
+import { useCreateWorkspaceModal } from "@/features/workspaces/store/use-create-workspace-modal";
 
 export const WorkspaceSwitcher = () => {
     const router = useRouter();
@@ -59,7 +58,7 @@ export const WorkspaceSwitcher = () => {
                     </span>
                 </DropdownMenuItem>
 
-                <Separator />
+                <DropdownMenuSeparator />
 
                 {/* Other workspaces */}
                 {filteredWorkspaces?.map((workspace) => (
@@ -77,7 +76,7 @@ export const WorkspaceSwitcher = () => {
                     </DropdownMenuItem>
                 ))}
 
-                <Separator />
+                <DropdownMenuSeparator />
 
                 {/* Create new workspace */}
                 <DropdownMenuItem
