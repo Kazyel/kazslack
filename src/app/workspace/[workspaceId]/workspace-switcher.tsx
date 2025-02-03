@@ -17,13 +17,12 @@ import { useCreateWorkspaceModal } from "@/features/workspaces/store/use-create-
 export const WorkspaceSwitcher = () => {
     const router = useRouter();
     const workspaceId = useWorkspaceId();
-    const [_open, setOpen] = useCreateWorkspaceModal();
+    const [, setOpen] = useCreateWorkspaceModal();
 
     const { data: workspace, isLoading: workspaceLoading } = useGetWorkspace({
         id: workspaceId,
     });
-    const { data: workspaces, isLoading: workspacesLoading } =
-        useGetWorkspaces();
+    const { data: workspaces } = useGetWorkspaces();
 
     const filteredWorkspaces = workspaces?.filter(
         (workspace) => workspace?._id !== workspaceId
