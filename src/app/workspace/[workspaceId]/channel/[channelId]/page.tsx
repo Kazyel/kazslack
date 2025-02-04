@@ -1,8 +1,9 @@
 "use client";
 
 import { useGetChannel } from "@/features/channels/api/use-get-channel";
-import { useChannelId } from "@/hooks/use-workspace-id copy";
+import { useChannelId } from "@/hooks/use-channel-id";
 import { Loader, TriangleAlert } from "lucide-react";
+import { ChannelHeader } from "./header";
 
 const ChannelIdPage = () => {
     const channelId = useChannelId();
@@ -29,7 +30,11 @@ const ChannelIdPage = () => {
         );
     }
 
-    return <div>{channel?.name}</div>;
+    return (
+        <div className="flex flex-col h-full">
+            <ChannelHeader name={channel?.name}></ChannelHeader>
+        </div>
+    );
 };
 
 export default ChannelIdPage;

@@ -4,7 +4,7 @@ import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useGetChannels } from "@/features/channels/api/use-get-channels";
 import { useGetMembers } from "@/features/members/api/use-get-members";
-import { useChannelId } from "@/hooks/use-workspace-id copy";
+import { useChannelId } from "@/hooks/use-channel-id";
 
 import {
     AlertTriangle,
