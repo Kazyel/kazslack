@@ -21,7 +21,7 @@ export const WorkspaceSection = ({
     const [on, toggle] = useToggle(true);
 
     return (
-        <div className="flex flex-col mt-3 px-2">
+        <div className="flex flex-col mt-3 px-2 space-y-1">
             <div className="flex items-center px-3.5 group">
                 <Button
                     variant="transparent"
