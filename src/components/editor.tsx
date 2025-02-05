@@ -17,6 +17,7 @@ import { Button } from "./ui/button";
 
 import "quill/dist/quill.snow.css";
 import { cn } from "@/lib/utils";
+import { EmojiPopover } from "./emoji-popover";
 
 type EditorValue = {
     image: File | null;
@@ -43,6 +44,8 @@ const Editor = ({
     variant = "create",
 }: EditorProps) => {
     const [text, setText] = useState("");
+    const [isToolbarVisible, setIsToolbarVisible] = useState(false);
+    const [image, setImage] = useState<File | null>(null);
 
     const submitRef = useRef(onSubmit);
     const placeholderRef = useRef(placeholder);
@@ -50,6 +53,7 @@ const Editor = ({
     const containerRef = useRef<HTMLDivElement>(null);
     const disabledRef = useRef(disabled);
     const quillRef = useRef<Quill | null>(null);
+    const imageElementRef = useRef<HTMLInputElement>(null);
 
     useLayoutEffect(() => {
         submitRef.current = onSubmit;
@@ -119,38 +123,58 @@ const Editor = ({
         };
     }, []);
 
+    const onEmojiSelect = (emoji: any) => {
+        const quill = quillRef.current;
+        quill?.insertText(quill?.getSelection()?.index || 0, emoji.native);
+    };
+
     const isEmpty = text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
+
+    const toggleToolbar = () => {
+        setIsToolbarVisible((prev) => !prev);
+        const toolbarElement =
+            containerRef.current?.querySelector(".ql-toolbar");
+
+        if (toolbarElement) {
+            toolbarElement.classList.toggle("hidden");
+        }
+    };
 
     return (
         <div className="flex flex-col">
             <div className="flex flex-col border border-slate-200 rounded-md overflow-hidden focus-within:border-slate-300 focus-within:shadow-sm transition bg-white">
                 <div ref={containerRef} className="h-full ql-custom"></div>
                 <div className="flex px-2 pb-2 z-[5]">
-                    <Hint label="Hide formatting">
+                    <Hint
+                        label={
+                            isToolbarVisible
+                                ? "Show formatting"
+                                : "Hide formatting"
+                        }
+                    >
                         <Button
-                            disabled={false}
+                            disabled={disabled}
                             size="iconSm"
                             variant="ghost"
-                            onClick={() => {}}
+                            onClick={toggleToolbar}
                         >
                             <PiTextAa className="size-4" />
                         </Button>
                     </Hint>
 
-                    <Hint label="Emoji">
+                    <EmojiPopover onEmojiSelect={onEmojiSelect}>
                         <Button
-                            disabled={false}
+                            disabled={disabled}
                             size="iconSm"
                             variant="ghost"
-                            onClick={() => {}}
                         >
                             <Smile className="size-4" />
                         </Button>
-                    </Hint>
+                    </EmojiPopover>
                     {variant === "update" && (
                         <div className="ml-auto flex items-center gap-x-2">
                             <Button
-                                disabled={false}
+                                disabled={disabled}
                                 size="sm"
                                 variant="outline"
                                 onClick={() => {}}
@@ -159,7 +183,7 @@ const Editor = ({
                             </Button>
                             <Button
                                 className="bg-[#007a5a] hover:bg-[#007a5a]/80 text-white"
-                                disabled={false}
+                                disabled={disabled || isEmpty}
                                 onClick={() => {}}
                                 size="sm"
                             >
@@ -199,11 +223,18 @@ const Editor = ({
                     )}
                 </div>
             </div>
-            <div className="p-2 text-[10px] text-muted-foreground flex justify-end">
-                <p>
-                    <strong>Shift + Return</strong> to add a new line
-                </p>
-            </div>
+            {variant === "create" && (
+                <div
+                    className={cn(
+                        "p-2 text-[10px] text-muted-foreground flex justify-end opacity-0 transition",
+                        !isEmpty && "opacity-100"
+                    )}
+                >
+                    <p>
+                        <strong>Shift + Return</strong> to add a new line
+                    </p>
+                </div>
+            )}
         </div>
     );
 };
