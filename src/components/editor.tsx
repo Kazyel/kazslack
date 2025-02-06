@@ -55,12 +55,14 @@ const Editor = ({
     const disabledRef = useRef(disabled);
     const quillRef = useRef<Quill | null>(null);
     const imageElementRef = useRef<HTMLInputElement>(null);
+    const isToolbarVisibleRef = useRef(isToolbarVisible);
 
     useLayoutEffect(() => {
         submitRef.current = onSubmit;
         placeholderRef.current = placeholder;
         defaultValueRef.current = defaultValue;
         disabledRef.current = disabled;
+        isToolbarVisibleRef.current = isToolbarVisible;
     });
 
     useEffect(() => {
@@ -124,6 +126,13 @@ const Editor = ({
         const quill = new Quill(editorContainer, options);
         quillRef.current = quill;
         quillRef.current.focus();
+
+        const toolbarElement =
+            containerRef.current?.querySelector(".ql-toolbar");
+
+        if (toolbarElement && isToolbarVisibleRef) {
+            toolbarElement.classList.toggle("hidden");
+        }
 
         if (innerRef) {
             innerRef.current = quill;
