@@ -1,6 +1,6 @@
 import { PiTextAa } from "react-icons/pi";
 import { MdSend } from "react-icons/md";
-import { ImageIcon, Smile } from "lucide-react";
+import { ImageIcon, Smile, XIcon } from "lucide-react";
 
 import React, {
     RefObject,
@@ -18,6 +18,7 @@ import { Button } from "./ui/button";
 import "quill/dist/quill.snow.css";
 import { cn } from "@/lib/utils";
 import { EmojiPopover } from "./emoji-popover";
+import Image from "next/image";
 
 type EditorValue = {
     image: File | null;
@@ -83,7 +84,27 @@ const Editor = ({
                     bindings: {
                         enter: {
                             key: "Enter",
-                            handler: () => onSubmit,
+                            handler: () => {
+                                const text = quill.getText();
+
+                                const addedImage =
+                                    imageElementRef.current?.files?.[0] || null;
+
+                                const isEmpty =
+                                    !addedImage &&
+                                    text.replace(/<(.|\n)*?>/g, "").trim()
+                                        .length === 0;
+
+                                if (isEmpty) return;
+
+                                const body = JSON.stringify(
+                                    quill.getContents()
+                                );
+                                submitRef.current({
+                                    body,
+                                    image: addedImage,
+                                });
+                            },
                         },
                         shift_enter: {
                             key: "Enter",
@@ -128,7 +149,8 @@ const Editor = ({
         quill?.insertText(quill?.getSelection()?.index || 0, emoji.native);
     };
 
-    const isEmpty = text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
+    const isEmpty =
+        !image && text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
 
     const toggleToolbar = () => {
         setIsToolbarVisible((prev) => !prev);
@@ -142,8 +164,47 @@ const Editor = ({
 
     return (
         <div className="flex flex-col">
-            <div className="flex flex-col border border-slate-200 rounded-md overflow-hidden focus-within:border-slate-300 focus-within:shadow-sm transition bg-white">
-                <div ref={containerRef} className="h-full ql-custom"></div>
+            <input
+                type="file"
+                accept="image/*"
+                ref={imageElementRef}
+                onChange={(e) => setImage(e.target.files![0])}
+                className="hidden"
+            />
+
+            <div
+                className={cn(
+                    "flex flex-col border border-slate-200 rounded-md overflow-hidden focus-within:border-slate-300 focus-within:shadow-sm transition bg-white",
+                    disabled && "opacity-50"
+                )}
+            >
+                <div ref={containerRef} className="h-full ql-custom" />
+
+                {!!image && (
+                    <div className="p-2">
+                        <div className="relative size-[62px] flex items-center justify-center group/image">
+                            <Hint label="Remove Image">
+                                <button
+                                    onClick={() => {
+                                        setImage(null);
+                                        imageElementRef.current!.value = "";
+                                    }}
+                                    className="hidden group-hover/image:flex rounded-full bg-black/70 hover:bg-black absolute -top-2.5 -right-2.5 text-white size-6 z-[4] border-2 border-white items-center justify-center"
+                                >
+                                    <XIcon className="size-3.5" />
+                                </button>
+                            </Hint>
+
+                            <Image
+                                src={URL.createObjectURL(image)}
+                                alt="Uploaded Image"
+                                fill
+                                className="rounded-xl overflow-hidden border object-cover"
+                            />
+                        </div>
+                    </div>
+                )}
+
                 <div className="flex px-2 pb-2 z-[5]">
                     <Hint
                         label={
@@ -171,37 +232,46 @@ const Editor = ({
                             <Smile className="size-4" />
                         </Button>
                     </EmojiPopover>
+
+                    {variant === "create" && (
+                        <Hint label="Image">
+                            <Button
+                                disabled={disabled}
+                                size="iconSm"
+                                variant="ghost"
+                                onClick={() => imageElementRef.current?.click()}
+                            >
+                                <ImageIcon className="size-4" />
+                            </Button>
+                        </Hint>
+                    )}
+
                     {variant === "update" && (
                         <div className="ml-auto flex items-center gap-x-2">
                             <Button
                                 disabled={disabled}
                                 size="sm"
                                 variant="outline"
-                                onClick={() => {}}
+                                onClick={onCancel}
                             >
                                 Cancel
                             </Button>
                             <Button
                                 className="bg-[#007a5a] hover:bg-[#007a5a]/80 text-white"
                                 disabled={disabled || isEmpty}
-                                onClick={() => {}}
+                                onClick={() =>
+                                    onSubmit({
+                                        body: JSON.stringify(
+                                            quillRef.current?.getContents()
+                                        ),
+                                        image,
+                                    })
+                                }
                                 size="sm"
                             >
                                 Save
                             </Button>
                         </div>
-                    )}
-                    {variant === "create" && (
-                        <Hint label="Image">
-                            <Button
-                                disabled={false}
-                                size="iconSm"
-                                variant="ghost"
-                                onClick={() => {}}
-                            >
-                                <ImageIcon className="size-4" />
-                            </Button>
-                        </Hint>
                     )}
 
                     {variant === "create" && (
@@ -215,7 +285,14 @@ const Editor = ({
                                 )}
                                 size="iconSm"
                                 disabled={disabled || isEmpty}
-                                onClick={() => {}}
+                                onClick={() =>
+                                    onSubmit({
+                                        body: JSON.stringify(
+                                            quillRef.current?.getContents()
+                                        ),
+                                        image,
+                                    })
+                                }
                             >
                                 <MdSend className="size-4" />
                             </Button>
