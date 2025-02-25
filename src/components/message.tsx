@@ -12,6 +12,8 @@ import { toast } from "sonner";
 import { useUpdateMessage } from "@/features/messages/api/use-update-message";
 import { useRemoveMessage } from "@/features/messages/api/use-remove-message";
 import { useConfirmModal } from "@/hooks/use-confirm";
+import { useToggleReaction } from "@/features/reactions/api/use-toggle-reaction";
+import { Reactions } from "./reactions";
 
 const Editor = dynamic(() => import("@/components/editor"), { ssr: false });
 const Renderer = dynamic(() => import("@/components/renderer"), { ssr: false });
@@ -102,10 +104,23 @@ export const Message = ({
             {
                 onSuccess: () => {
                     toast.success("Message deleted successfulyl.");
-                    setEditingId(null);
                 },
                 onError: () => {
                     toast.error("Failed to delete message.");
+                },
+            }
+        );
+    };
+
+    const { mutate: toggleReaction, isPending: isTogglingReaction } =
+        useToggleReaction();
+
+    const handleReaction = (value: string) => {
+        toggleReaction(
+            { messageId: id, value },
+            {
+                onError: () => {
+                    toast.error("Failed to react.");
                 },
             }
         );
@@ -120,7 +135,9 @@ export const Message = ({
                 <div
                     className={cn(
                         "flex flex-col gap-2.5 p-1.5 px-[26px] hover:bg-gray-100/60 group relative",
-                        isEditing && "bg-[#f2c74433] hover:bg-[#f2c74433]"
+                        isEditing && "bg-[#f2c74433] hover:bg-[#f2c74433]",
+                        isRemovingMessage &&
+                            "bg-rose-500/50 transform transition-all scale-y-0 origin-bottom duration-200"
                     )}
                 >
                     {isEditing ? (
@@ -151,6 +168,11 @@ export const Message = ({
                                         (edited)
                                     </span>
                                 ) : null}
+
+                                <Reactions
+                                    data={reactions}
+                                    onChange={handleReaction}
+                                />
                             </div>
                         </div>
                     )}
@@ -162,7 +184,7 @@ export const Message = ({
                             handleEdit={() => setEditingId(id)}
                             handleThread={() => {}}
                             handleDelete={handleRemoveMessage}
-                            handleReaction={() => {}}
+                            handleReaction={handleReaction}
                             hideThreadButton={hideThreadButton}
                         />
                     )}
@@ -177,7 +199,9 @@ export const Message = ({
             <div
                 className={cn(
                     "flex flex-col gap-2.5 pt-2 pb-1 px-5 hover:bg-gray-100/60 group relative",
-                    isEditing && "bg-[#f2c74433] hover:bg-[#f2c74433]"
+                    isEditing && "bg-[#f2c74433] hover:bg-[#f2c74433]",
+                    isRemovingMessage &&
+                        "bg-rose-500/50 transform transition-all scale-y-0 origin-bottom duration-200"
                 )}
             >
                 <div className="flex items-start gap-2">
@@ -227,6 +251,11 @@ export const Message = ({
                                     (edited)
                                 </span>
                             ) : null}
+
+                            <Reactions
+                                data={reactions}
+                                onChange={handleReaction}
+                            />
                         </div>
                     )}
                 </div>
@@ -238,7 +267,7 @@ export const Message = ({
                         handleEdit={() => setEditingId(id)}
                         handleThread={() => {}}
                         handleDelete={handleRemoveMessage}
-                        handleReaction={() => {}}
+                        handleReaction={handleReaction}
                         hideThreadButton={hideThreadButton}
                     />
                 )}
