@@ -4,10 +4,11 @@ import { Inter } from "next/font/google";
 
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import { ConvexClientProvider } from "@/components/convex-client-provider";
+import { JotaiProviderWrapper } from "@/components/ui/jotai-provider";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import { Modals } from "@/components/modals";
 import { Toaster } from "@/components/ui/sonner";
-import { JotaiProviderWrapper } from "@/components/ui/jotai-provider";
 
 const inter = Inter({
     variable: "--font-inter",
@@ -28,13 +29,15 @@ export default function RootLayout({
         <ConvexAuthNextjsServerProvider>
             <html lang="en">
                 <body className={`${inter.className} antialiased`}>
-                    <ConvexClientProvider>
-                        <JotaiProviderWrapper>
-                            <Toaster />
-                            <Modals />
-                            {children}
-                        </JotaiProviderWrapper>
-                    </ConvexClientProvider>
+                    <NuqsAdapter>
+                        <ConvexClientProvider>
+                            <JotaiProviderWrapper>
+                                <Toaster />
+                                <Modals />
+                                {children}
+                            </JotaiProviderWrapper>
+                        </ConvexClientProvider>
+                    </NuqsAdapter>
                 </body>
             </html>
         </ConvexAuthNextjsServerProvider>

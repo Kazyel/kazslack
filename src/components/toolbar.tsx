@@ -45,6 +45,7 @@ export const Toolbar = ({
                                 variant="ghost"
                                 size="iconSm"
                                 disabled={isPending}
+                                onClick={handleThread}
                             >
                                 <MessageSquare className="size-4" />
                             </Button>

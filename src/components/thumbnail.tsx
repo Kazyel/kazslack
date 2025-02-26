@@ -30,6 +30,8 @@ export const Thumbnail = ({ url }: ThumbnailProps) => {
                         ></img>
                     </div>
                 </DialogTrigger>
+                <DialogTitle />
+                <DialogHeader />
                 <DialogContent className="max-w-[800px] border-none bg-transparent p-0 shadow-none">
                     <img
                         src={url}
