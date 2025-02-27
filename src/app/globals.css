@@ -90,7 +90,7 @@ body,
 }
 
 .ql-editor {
-    line-height: 22px !important;
+    line-height: 1.5rem !important;
     padding: 8px 12px !important;
     color: #1d1c1d !important;
     font-weight: 400 !important;
@@ -123,4 +123,5 @@ body,
 .messages-scrollbar {
     scrollbar-width: thin;
     scrollbar-color: #dcdcdc #f8f8f8;
+    scroll-behavior: smooth;
 }

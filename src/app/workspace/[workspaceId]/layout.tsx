@@ -49,6 +49,7 @@ const WorkspaceLayout = ({ children }: WorkspaceIdLayoutProps) => {
                                 minSize={12}
                                 defaultSize={16}
                                 maxSize={30}
+                                className="border-l"
                             >
                                 {parentMessageId ? (
                                     <Thread
@@ -59,7 +60,7 @@ const WorkspaceLayout = ({ children }: WorkspaceIdLayoutProps) => {
                                     />
                                 ) : (
                                     <div className="flex h-full items-center justify-center">
-                                        <Loader className="size-8 animate-spin text-muted-foreground" />
+                                        <Loader className="size-6 animate-spin text-muted-foreground" />
                                     </div>
                                 )}
                             </ResizablePanel>

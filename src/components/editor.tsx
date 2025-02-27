@@ -19,6 +19,7 @@ import "quill/dist/quill.snow.css";
 import { cn } from "@/lib/utils";
 import { EmojiPopover } from "./emoji-popover";
 import Image from "next/image";
+import { Emoji } from "@emoji-mart/data";
 
 type EditorValue = {
     image: File | null;
@@ -138,11 +139,10 @@ const Editor = ({
             innerRef.current = quill;
         }
 
-        quill.setContents(defaultValueRef.current);
-        setText(quill.getText());
+        const quillText = quill.getText().trim();
 
         quill.on(Quill.events.TEXT_CHANGE, () => {
-            setText(quill.getText());
+            setText(quillText);
         });
 
         return () => {
@@ -151,7 +151,7 @@ const Editor = ({
             if (quillRef.current) quillRef.current = null;
             if (innerRef) innerRef.current = null;
         };
-    }, []);
+    }, [innerRef]);
 
     const onEmojiSelect = (emoji: any) => {
         const quill = quillRef.current;

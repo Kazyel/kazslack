@@ -20,7 +20,7 @@ interface MessageListProps {
     canLoadMore: boolean;
 }
 
-const TIME_THRESHOLD = 1;
+const TIME_THRESHOLD_IN_MINUTES = 1;
 
 export const MessageList = ({
     memberName,
@@ -73,6 +73,7 @@ export const MessageList = ({
                                 {formatDateLabel(dateKey)}
                             </span>
                         </div>
+
                         {messages.map((message, index) => {
                             const prevMessage = messages[index - 1];
                             const isCompact =
@@ -81,7 +82,7 @@ export const MessageList = ({
                                 differenceInMinutes(
                                     new Date(message._creationTime),
                                     new Date(prevMessage._creationTime)
-                                ) < TIME_THRESHOLD;
+                                ) < TIME_THRESHOLD_IN_MINUTES;
 
                             return (
                                 <Message
