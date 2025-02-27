@@ -220,7 +220,7 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
                                         isEditing={editingId === message._id}
                                         setEditingId={setEditingId}
                                         isCompact={isCompact}
-                                        // hideThreadButton={variant === "thread"}
+                                        hideThreadButton
                                         threadCount={message.threadCount}
                                         threadImage={message.threadImage}
                                         threadTimestamp={
@@ -232,6 +232,24 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
                         </div>
                     )
                 )}
+
+                <div
+                    className="h-1"
+                    ref={(el) => {
+                        if (el) {
+                            const observer = new IntersectionObserver(
+                                ([entry]) => {
+                                    if (entry.isIntersecting && canLoadMore) {
+                                        loadMore();
+                                    }
+                                },
+                                { threshold: 1.0 }
+                            );
+                            observer.observe(el);
+                            return () => observer.disconnect();
+                        }
+                    }}
+                />
 
                 <Message
                     key={message._id}
