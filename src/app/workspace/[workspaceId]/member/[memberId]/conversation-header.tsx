@@ -23,10 +23,10 @@ export const ConversationHeader = ({
                 <Button
                     variant="ghost"
                     className="text-lg font-semibold px-2overflow-hidden w-auto"
-                    size="sm"
+                    size="conversation"
                     onClick={onClick}
                 >
-                    <Avatar className="size-7 mr-2">
+                    <Avatar className="size-8 mr-2">
                         <AvatarImage src={memberImage} />
                         <AvatarFallback>{avatarFallback}</AvatarFallback>
                     </Avatar>

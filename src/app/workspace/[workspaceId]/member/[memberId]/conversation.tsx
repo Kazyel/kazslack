@@ -42,9 +42,10 @@ export const Conversation = ({ id }: ConversationProps) => {
                 />
 
                 <MessageList
+                    data={results}
+                    variant="conversation"
                     memberName={member?.user.name}
                     memberImage={member?.user.image}
-                    data={results}
                     loadMore={loadMore}
                     isLoadingMore={status === "LoadingMore"}
                     canLoadMore={status === "CanLoadMore"}

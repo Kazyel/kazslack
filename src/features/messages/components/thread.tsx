@@ -223,6 +223,7 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
                                         hideThreadButton
                                         threadCount={message.threadCount}
                                         threadImage={message.threadImage}
+                                        threadName={message.threadName}
                                         threadTimestamp={
                                             message.threadTimestamp
                                         }
@@ -267,6 +268,7 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
                     setEditingId={setEditingId}
                 />
             </div>
+
             <div className="px-4">
                 <Editor
                     key={editorKey}

@@ -23,6 +23,7 @@ const buttonVariants = cva(
                 transparent: "bg-transparent hover:bg-accent/10 text-accent",
             },
             size: {
+                conversation: "h-8 rounded-md pr-2",
                 default: "h-10 px-4 py-2",
                 sm: "h-8 rounded-md px-3",
                 lg: "h-11 rounded-md px-8",
