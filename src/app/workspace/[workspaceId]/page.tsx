@@ -53,6 +53,8 @@ const WorkspaceIdPage = () => {
         member,
         open,
         setOpen,
+        isAdmin,
+        router,
     ]);
 
     if (workspaceLoading || channelsLoading || memberLoading) {

@@ -121,7 +121,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
                         Continue with GitHub
                     </Button>
                     <p className="text-xs text-muted-foreground">
-                        Don't have an account?{" "}
+                        Don&apos;t have an account?{" "}
                         <span
                             onClick={() => {
                                 setState("signUp");
