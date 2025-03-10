@@ -19,7 +19,6 @@ import "quill/dist/quill.snow.css";
 import { cn } from "@/lib/utils";
 import { EmojiPopover } from "./emoji-popover";
 import Image from "next/image";
-import { Emoji } from "@emoji-mart/data";
 
 type EditorValue = {
     image: File | null;
