@@ -33,22 +33,24 @@ const WorkspaceLayout = ({ children }: WorkspaceIdLayoutProps) => {
                     autoSaveId="ks-workspace-layout"
                 >
                     <ResizablePanel
-                        defaultSize={16}
-                        minSize={12}
-                        maxSize={18}
+                        defaultSize={20}
+                        minSize={16}
+                        maxSize={20}
                         className="bg-[#5E2C5f]"
                     >
                         <WorkspaceSidebar />
                     </ResizablePanel>
                     <ResizableHandle className="invisible" withHandle />
-                    <ResizablePanel minSize={20}>{children}</ResizablePanel>
+                    <ResizablePanel defaultSize={80} minSize={20}>
+                        {children}
+                    </ResizablePanel>
 
                     {showPanel && (
                         <>
                             <ResizableHandle className="invisible" withHandle />
                             <ResizablePanel
-                                minSize={12}
-                                defaultSize={16}
+                                minSize={20}
+                                defaultSize={20}
                                 maxSize={30}
                                 className="border-l"
                             >
