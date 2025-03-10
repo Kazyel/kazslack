@@ -85,11 +85,13 @@ export const PreferencesModal = ({
     return (
         <>
             <ConfirmDialog />
+
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogContent className="p-0 bg-gray-50 overflow-hidden">
                     <DialogHeader className="p-4 border-b bg-white">
                         <DialogTitle>Preferences</DialogTitle>
                     </DialogHeader>
+
                     <div className="px-4 pb-4 flex flex-col gap-y-2">
                         <Dialog open={editOpen} onOpenChange={setEditOpen}>
                             <DialogTrigger asChild>
@@ -105,6 +107,7 @@ export const PreferencesModal = ({
                                     <p className="text-sm">{workspace?.name}</p>
                                 </div>
                             </DialogTrigger>
+
                             <DialogContent>
                                 <DialogHeader>
                                     <DialogTitle>Rename workspace</DialogTitle>
@@ -141,6 +144,7 @@ export const PreferencesModal = ({
                                 </form>
                             </DialogContent>
                         </Dialog>
+
                         <button
                             disabled={isRemovingWorkspace}
                             onClick={handleRemove}
